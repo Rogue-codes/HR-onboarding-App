@@ -4,6 +4,7 @@ import Nav from "./components/Nav";
 import Data from './components/mock-data.json'
 import { useEffect, useState } from "react";
 import {nanoid} from 'nanoid'
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Cont = styled.div`
@@ -108,9 +109,24 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if(form.email === '' || form.jobRole ==='' || form.name==='' || form.phone === '' || form.progress ==="" || form.status === ''){
-      // alert('please fill in all the fields')
-      return
+    if(!form.email || !form.jobRole || !form.name || !form.phone || !form.progress || !form.status){
+      return toast.error("All Fields must be filled in!")
+    }
+
+    const checkEmailExist = candidate.filter((candi) => 
+      candi.email  === form.email ? candi : null
+    )
+
+    const checkPhoneExist = candidate.filter((candi) => 
+    candi.phone  === form.phone ? candi : null
+  )
+
+    if(checkEmailExist.length > 0){
+      return toast.error("This email already exists!!")
+    }
+
+    if(checkPhoneExist.length > 0){
+      return toast.error("This Phone number already exists!!")
     }
 
    const newCandidate = {
@@ -192,6 +208,7 @@ function App() {
 
         <Btn>Add</Btn>
     </Formic>
+    <ToastContainer/>
       <AddContact searchValue={searchValue} candidate={candidate} setCandidate={setCandidate} />
     </Cont>
   );

@@ -2,6 +2,8 @@ import {React, Fragment, useState} from 'react'
 import styled from 'styled-components'
 import EditRow from './EditRow'
 import ReadOnlyRow from './ReadOnlyRow'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Container = styled.div`
     width: 100%;
@@ -36,7 +38,7 @@ const Container = styled.div`
     }
 `
 const Btn = styled.button`
-    margin-left: 85%;
+    margin-left: 88%;
     margin-top: 5%;
     margin-bottom: 5%;
     padding: 1% 3%;
@@ -125,10 +127,13 @@ function AddContact({candidate,setCandidate,searchValue}) {
         const newCandidate = [...candidate]
         newCandidate.splice(0,newCandidate.length)
         setCandidate(newCandidate)
+
+        return toast.success("All Fields has been successfully deleted!")
     }
   return (
     <Container>
         <Btn onClick={deleteAll}>delete all</Btn>
+        <ToastContainer/>
         <form action="" onSubmit={handleEditFormSubmit}>
         <table>
             <thead>
@@ -144,17 +149,17 @@ function AddContact({candidate,setCandidate,searchValue}) {
             </thead>
             <tbody>
                     {
-                        candidate.filter((val)=>{
+                        candidate.filter( (val) => {
                             if(searchValue === ''){
                                 return val
                             }else if(val.name.toLowerCase().includes(searchValue.toLowerCase())){
                                 return val
-                            }
+                            } return null
                         }).map((i)=>(
                             <Fragment>
                                 {editContactID === i.id ? (<EditRow handleChange={handleChange} cancelEdit={cancelEdit} editFormData={editFormData} />) :
                                 (<ReadOnlyRow i={i} deleteCandidate={deleteCandidate} handleEditClick={handleEditClick}/>)}
-                            </Fragment>                            
+                            </Fragment>                          
                         ))
                     }
 
