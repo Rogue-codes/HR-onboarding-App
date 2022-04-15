@@ -77,7 +77,15 @@ const Search = styled.div`
         }
     }
 `
-
+const Loader = styled.div`
+    width: 100%;
+    height: 100vh;
+    img{
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+`
 
 function App() {
   const [candidate, setCandidate] = useState(Data)
@@ -157,6 +165,14 @@ function App() {
    })
   }
 
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    },5000)
+  },[])
 
   useEffect(()=>{
     const getCandidates = JSON.parse(localStorage.getItem('candidates'))
@@ -173,42 +189,51 @@ function App() {
 
   return (
     <Cont className="App">
-      <Nav/>
-      <Search>
-        <input type="text" placeholder='search...' value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} />
-      </Search>
-
       
-      <Formic onSubmit={handleSubmit}>
-        <input type="text" placeholder='First name' name="name" onChange={handleChange} />
-        <input type="email" placeholder='Email' name="email"  onChange={handleChange} />
-        <input type="number" placeholder='Phone' name="phone"  onChange={handleChange} />
-        <select name="jobRole" onChange={handleChange}  id="">
-            <option value="">--Job role--</option>
-            <option value="Frontend Engineer">Frontend Engineer</option>
-            <option value="Backend Engineer">Backend Engineer</option>
-            <option value="Devops Engineer">Devops Engineer</option>
-            <option value="Product Manager">Product Manager</option>
-            <option value="Accountant">Accountant</option>
-        </select>
-
-        <select name="progress" onChange={handleChange}  id="">
-            <option value="">--Progress--</option>
-            <option value="Interviewed">Interviewed</option>
-            <option value="Awaiting Interview">Awaiting Interview</option>
-        </select>
-
-        <select name="status" onChange={handleChange} id="">
-            <option value="">--Status--</option>
-            <option value="undecided">undecided</option>
-            <option value="Accepted">Accepted</option>
-            <option value="Rejected">Rejected</option>
-        </select>
-
-        <Btn>Add</Btn>
-    </Formic>
-    <ToastContainer/>
-      <AddContact searchValue={searchValue} candidate={candidate} setCandidate={setCandidate} />
+    {
+      loading ? (<Loader>
+        <img src="https://cdn.dribbble.com/users/220182/screenshots/2253511/josephjpearce_dribbble_exy-loader.gif" alt=''></img>
+      </Loader>):
+      (
+        <fragment>
+        <Nav/>
+        <Search>
+          <input type="text" placeholder='search...' value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} />
+        </Search>
+  
+        
+        <Formic onSubmit={handleSubmit}>
+          <input type="text" placeholder='First name' name="name" onChange={handleChange} />
+          <input type="email" placeholder='Email' name="email"  onChange={handleChange} />
+          <input type="number" placeholder='Phone' name="phone"  onChange={handleChange} />
+          <select name="jobRole" onChange={handleChange}  id="">
+              <option value="">--Job role--</option>
+              <option value="Frontend Engineer">Frontend Engineer</option>
+              <option value="Backend Engineer">Backend Engineer</option>
+              <option value="Devops Engineer">Devops Engineer</option>
+              <option value="Product Manager">Product Manager</option>
+              <option value="Accountant">Accountant</option>
+          </select>
+  
+          <select name="progress" onChange={handleChange}  id="">
+              <option value="">--Progress--</option>
+              <option value="Interviewed">Interviewed</option>
+              <option value="Awaiting Interview">Awaiting Interview</option>
+          </select>
+  
+          <select name="status" onChange={handleChange} id="">
+              <option value="">--Status--</option>
+              <option value="undecided">undecided</option>
+              <option value="Accepted">Accepted</option>
+              <option value="Rejected">Rejected</option>
+          </select>
+  
+          <Btn>Add</Btn>
+      </Formic>
+      <ToastContainer/>
+        <AddContact searchValue={searchValue} candidate={candidate} setCandidate={setCandidate} />)
+        </fragment>)
+    }
     </Cont>
   );
 }
