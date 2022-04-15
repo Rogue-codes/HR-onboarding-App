@@ -10,7 +10,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const Cont = styled.div`
     width: 100%;
     min-height: 100vh;
-    background: #f0ffff;
 `
 const Formic = styled.form`
     width: 100%;

@@ -15,6 +15,8 @@ const Container = styled.div`
         th{
             height: 8vh;
             font-family: 'Barlow', sans-serif;
+            color: white;
+            background: #036181;
         }
         td{
             height: 10vh;
@@ -25,7 +27,7 @@ const Container = styled.div`
         tr{
             border-bottom: 1px solid #ddd;
             &:nth-child(even) {
-                background-color: #D6EEEE;
+                background-color: lightgrey;
             }
             .but{
                 display: flex;
