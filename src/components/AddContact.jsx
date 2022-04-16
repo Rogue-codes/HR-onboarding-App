@@ -48,7 +48,7 @@ const Btn = styled.button`
     border-radius: 5px;
     background: red;
     color: white;
-    cursor: pointer;
+    cursor: ${props => props.dl};
 `
 function AddContact({candidate,setCandidate,searchValue}) {
     const [editContactID, setEditContactId] = useState(null)
@@ -126,12 +126,17 @@ function AddContact({candidate,setCandidate,searchValue}) {
     }
 
     const deleteAll = () => {
+        if(candidate.length < 1 ){
+            return toast.error("Table is already empty!")
+          }
         const newCandidate = [...candidate]
         newCandidate.splice(0,newCandidate.length)
         setCandidate(newCandidate)
-
         return toast.success("All Fields has been successfully deleted!")
     }
+
+
+    
   return (
     <Container>
         <Btn onClick={deleteAll}>delete all</Btn>

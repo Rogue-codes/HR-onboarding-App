@@ -90,6 +90,7 @@ const Loader = styled.div`
 function App() {
   const [candidate, setCandidate] = useState(Data)
 
+  
   const [form, setForm] = useState({
     name:'',
     email:'',
@@ -185,6 +186,7 @@ function App() {
   useEffect(() => {
     localStorage.setItem('candidates', JSON.stringify(candidate))
   },[candidate])
+ 
  
 
   return (
