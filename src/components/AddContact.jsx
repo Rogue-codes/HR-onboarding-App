@@ -48,7 +48,7 @@ const Btn = styled.button`
     border-radius: 5px;
     background: red;
     color: white;
-    cursor: ${props => props.dl};
+    cursor: pointer;
 `
 function AddContact({candidate,setCandidate,searchValue}) {
     const [editContactID, setEditContactId] = useState(null)
@@ -127,7 +127,7 @@ function AddContact({candidate,setCandidate,searchValue}) {
 
     const deleteAll = () => {
         if(candidate.length < 1 ){
-            return toast.error("Table is already empty!")
+            return toast.error("Table is empty!")
           }
         const newCandidate = [...candidate]
         newCandidate.splice(0,newCandidate.length)
@@ -161,7 +161,7 @@ function AddContact({candidate,setCandidate,searchValue}) {
                                 return val
                             }else if(val.name.toLowerCase().includes(searchValue.toLowerCase())){
                                 return val
-                            } return null
+                            }return null
                         }).map((i)=>(
                             <Fragment>
                                 {editContactID === i.id ? (<EditRow handleChange={handleChange} cancelEdit={cancelEdit} editFormData={editFormData} />) :

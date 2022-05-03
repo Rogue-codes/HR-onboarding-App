@@ -6,69 +6,23 @@ import { useEffect, useState } from "react";
 import {nanoid} from 'nanoid'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Modal from "./components/Modal";
+import {GoPlus} from 'react-icons/go'
 
 const Cont = styled.div`
     width: 100%;
     min-height: 100vh;
+    position: relative;
 `
-const Formic = styled.form`
-    width: 100%;
-    height: auto;
-    margin-bottom: 1%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2%;
-    padding: 2%;
-    align-items: center;
-    input{
-        width: 30%;
-        height: 8vh;
-        display: block;
-        margin-top: 2%;
-        padding: 1%;
-        border-radius: 5px;
-        border: none;
-        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-        &:focus{
-            outline: none;
-        }
-    }
-    select{
-        width: 30%;
-        height: 8vh;
-        display: block;
-        margin-top: 2%;
-        padding: 1%;
-        border-radius: 5px;
-        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-        border: none;
-        &:focus{
-            outline: none;
-        }
-    }
-`
-const Btn = styled.button`
-    width: 5%;
-    height: 6vh;
-    border-radius: 5px;
-    border: none;
-    background: #036181;
-    color: white;
-    margin-top: 2%;
-    cursor: pointer;
-`
+
+
 const Search = styled.div`
-    width: 100%;
-    margin-top: 5%;
-    height: 15vh;
-    display: flex;
-    align-items: center;
-    padding-left: 2%;
+    width: 50%;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
     input{
-        width: 50%;
+        width: 100%;
         height: 8vh;
-        display: block;
-        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
         padding: 1%;
         border-radius: 5px;
         border: none;
@@ -86,8 +40,32 @@ const Loader = styled.div`
       object-fit: cover;
     }
 `
+const Btn = styled.button`
+  width: 5%;
+  background: #036181;
+  height: 8vh;
+  border: none;
+  cursor: pointer;
+`
+
+const Header = styled.div`
+  width: 100%;
+  height: 15vh;
+  padding: 2%;
+  display: flex;
+  justify-content: flex-start;
+  align-items:center;
+  gap: 2%;
+`
 
 function App() {
+  const [openModal, setOpenModal] = useState(false)
+
+  const showModal = () => {
+    setOpenModal(!openModal)
+    console.log('first')
+  }
+
   const [candidate, setCandidate] = useState(Data)
 
   
@@ -164,6 +142,10 @@ function App() {
    selects.forEach(select => {
      select.value = '';
    })
+
+   setOpenModal(false)
+
+   console.log(form.email, form.jobRole)
   }
 
   const [loading, setLoading] = useState(false)
@@ -199,39 +181,15 @@ function App() {
       (
         <fragment>
         <Nav/>
-        <Search>
-          <input type="text" placeholder='search...' value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} />
-        </Search>
-  
-        
-        <Formic onSubmit={handleSubmit}>
-          <input type="text" placeholder='First name' name="name" onChange={handleChange} />
-          <input type="email" placeholder='Email' name="email"  onChange={handleChange} />
-          <input type="number" placeholder='Phone' name="phone"  onChange={handleChange} />
-          <select name="jobRole" onChange={handleChange}  id="">
-              <option value="">--Job role--</option>
-              <option value="Frontend Engineer">Frontend Engineer</option>
-              <option value="Backend Engineer">Backend Engineer</option>
-              <option value="Devops Engineer">Devops Engineer</option>
-              <option value="Product Manager">Product Manager</option>
-              <option value="Accountant">Accountant</option>
-          </select>
-  
-          <select name="progress" onChange={handleChange}  id="">
-              <option value="">--Progress--</option>
-              <option value="Interviewed">Interviewed</option>
-              <option value="Awaiting Interview">Awaiting Interview</option>
-          </select>
-  
-          <select name="status" onChange={handleChange} id="">
-              <option value="">--Status--</option>
-              <option value="undecided">undecided</option>
-              <option value="Accepted">Accepted</option>
-              <option value="Rejected">Rejected</option>
-          </select>
-  
-          <Btn>Add</Btn>
-      </Formic>
+
+        <Header>
+            <Search>
+              <input type="text" placeholder='search by name...' value={searchValue} onChange={(e)=>setSearchValue(e.target.value)} />
+            </Search>
+            <Btn onClick={showModal}><GoPlus color="white" size='2.5rem'/></Btn>
+        </Header>
+
+        <Modal handleChange={handleChange} showModal={showModal} openModal={openModal} setOpenModal={setOpenModal} handleSubmit={handleSubmit}/>
       <ToastContainer/>
         <AddContact searchValue={searchValue} candidate={candidate} setCandidate={setCandidate} />)
         </fragment>)
